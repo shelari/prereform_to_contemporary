@@ -9,7 +9,7 @@
 
 ### Онлайн версия ###
 
-* Онлайн версия транслитератора доступна по ссылке http://web-corpora.net/wsgi3/prereform-to-contemporary/
+* Онлайн версия транслитератора доступна по ссылке http://web-corpora.net/wsgi/tolstoi_translit.wsgi/
 
 ### Оффлайн версия ###
 
