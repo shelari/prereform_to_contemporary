@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+        PrereformToContemporary
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+        <a href="{{url_for('web_converter')}}">Вернуться к транслитератору</a>
+        <form action='{{url_for("send_mail")}}' enctype="multipart/form-data" method="post">
+                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
+                        <h3>
+                                Форма обратной связи
+                        </h3>
+                </div>
+                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
+                       <span>Если у вас возникли какие-то коментарии, вопросы, связанные с работой транслитератора, или же вы нашли ошибку, пожалуйста, свяжитесь с нами. Не забудьте оставить контактные данные, если вы хотите получить ответ.</span>
+                </div>
+                <br/>
+                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
+                        <textarea name='mail' cols=100% rows=15>{{input_mail}}</textarea>
+                </div>
+                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
+                        {{ recaptcha }}
+
+                        <p style="color:red"><b>{{ alert }}</b></p>
+                        <br/>
+                        <input name='send' value='Отправить' type='submit'>
+                </div>
+        </form>
+</body>
+</html>
