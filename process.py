@@ -8,16 +8,19 @@ from meta_data import META
 
 class Processor(object):
     @classmethod
-    def process_text(cls, text, show, delimiters):
+    def process_text(cls, text, show, delimiters, print_log=True):
         text = Preprocessor.preprocess_text(text)
-        print 'TEXT', text
+        if print_log:
+            print 'TEXT', text
         tokens = Tokenizer.tokenize(text)
-        print 'TOKENS', tokens
+        if print_log:
+            print 'TOKENS', tokens
         # print 'tokens'
         for i in tokens.keys():
             if tokens[i].type == 'word':
-                word = Transliterator.transliterate(tokens[i].word)
-                print 'WORD TR', word
+                word = Transliterator.transliterate(tokens[i].word, print_log)
+                if print_log:
+                    print 'WORD TR', word
                 if word != tokens[i].word:
                     tokens[i].old_word = deepcopy(tokens[i].word)
                     tokens[i].word = word

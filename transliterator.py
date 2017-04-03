@@ -61,8 +61,9 @@ dict_settings = DictLoader.load_dicts()
 
 class Transliterator(object):
     @classmethod
-    def transliterate(cls, word):
-        print 'IN', word
+    def transliterate(cls, word, print_log=True):
+        if print_log:
+            print 'IN', word
         if re.search(u'^[XIVLMxivlm]*$', word):
             return word
         new_word = []
@@ -74,17 +75,19 @@ class Transliterator(object):
                     el = u' ' + el
                 new_word.append(el)
                 continue
-            el = cls.convert_word(el)
-            print 'EL', el
+            el = cls.convert_word(el, print_log)
+            if print_log:
+                print 'EL', el
             new_word.append(el)
         word = u'-'.join(new_word)
         word = word.replace(u' -', u' ')
         word = word.replace(u'- ', u' ')
-        print 'OUT', word
+        if print_log:
+            print 'OUT', word
         return word
 
     @classmethod
-    def convert_word(cls, part):
+    def convert_word(cls, part, print_log=True):
         old = deepcopy(part)
         if cls.is_foreign(part):
             return part
@@ -111,22 +114,29 @@ class Transliterator(object):
                 else:
                     part = cls.return_brackets(part, left, right, deleted, [])
                 return part
-        print 'CHECK1', part
+        if print_log:
+            print 'CHECK1', part
         part, deleted = cls.check_old_end(part, [], [deepcopy(quotes), deepcopy(left), deepcopy(right)])
-        print 'CHOLD', part
+        if print_log:
+            print 'CHOLD', part
         part, newdel, added = cls.format_old_style_word(part, [quotes, left, right])
-        print 'FORMAT', part
+        if print_log:
+            print 'FORMAT', part
         deleted += newdel
-        part = cls.replace_old_style_letters(part)
-        print 'OLDST', part
+        part = cls.replace_old_style_letters(part, print_log)
+        if print_log:
+            print 'OLDST', part
         part = cls.check_adjective_ends(part)
-        print 'ENDS', part
+        if print_log:
+            print 'ENDS', part
         if len(part) > 2:
             if part[-2:] == u'ия' or part[-2:] == u'ол':
                 part = cls.check_wrong_ends(part)
-        print 'WRONDE', part
+        if print_log:
+            print 'WRONDE', part
         part = cls.check_prefix(part)
-        print 'CHECK2', part
+        if print_log:
+            print 'CHECK2', part
         if quotes:
             if left or right:
                 if quotes[0] < left[0]:
@@ -141,7 +151,8 @@ class Transliterator(object):
                 part = cls.return_brackets(part, left, right, deleted, added)
         else:
             part = cls.return_brackets(part, left, right, deleted, added)
-        print 'CHECK3', part
+        if print_log:
+            print 'CHECK3', part
         part = cls.return_upper_positions(part, uppers, deleted, added)
         if u"''" not in old and u"''" in part:
             part = part.replace(u"''", u"'")
@@ -323,10 +334,11 @@ class Transliterator(object):
         return part, [], []
 
     @classmethod
-    def replace_old_style_letters(cls, part):
+    def replace_old_style_letters(cls, part, print_log=True):
         for key in old_style:
             part = part.replace(key, old_style[key])
-            print key, old_style[key], part
+            if print_log:
+                print key, old_style[key], part
         return part
 
     @classmethod
