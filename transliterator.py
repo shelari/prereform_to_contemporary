@@ -97,7 +97,10 @@ class Transliterator(object):
         part = part.replace(u"'", u'')
         for key in standard:
             if key.search(part):
-                deleted = cls.get_new_deleted_position(standard[key][1][0], deepcopy(left), deepcopy(right), deepcopy(quotes))
+                if standard[key][1]:
+                    deleted = cls.get_new_deleted_position(standard[key][1][0], deepcopy(left), deepcopy(right), deepcopy(quotes))
+                else:
+                    deleted = []
                 part = standard[key][0]
                 if quotes:
                     if left or right:
@@ -359,7 +362,7 @@ class Transliterator(object):
         for el in part:
             if el in alphabet:
                 n += 1
-        if n >= len(part)/2:
+        if n > len(part)/2:
             return 1
         else:
             return 0

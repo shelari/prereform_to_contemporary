@@ -61,3 +61,6 @@ class Processor(object):
 # a = Processor()
 # b = a.process_text(text, 1, [u'<choice><reg>', u'</reg><orig>', u'</orig></choice>'])
 # print b
+# text = u'сiю'
+# new_txt = Processor.process_text(text, [u'@', u'{', u'}'], [u'', u'{', u'}'])
+# print new_txt[0]

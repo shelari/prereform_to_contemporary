@@ -20,11 +20,6 @@ def main(args):
         except:
             return 0
     new_txt = new_txt[0]
-    new_txt = new_txt.replace(u'онѣ', u'они')
-    new_txt = new_txt.replace(u'однѣ', u'одни')
-    new_txt = new_txt.replace(u'Онѣ', u'Они')
-    new_txt = new_txt.replace(u'Однѣ', u'Одни')
-    new_txt = new_txt.replace(u'сiю', u'сию')
     print new_txt
     
     return 0
