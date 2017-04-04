@@ -61,7 +61,7 @@
 		display: inline-block;
 		margin: 0 10px 0 0;
 		padding: 15px 45px;
-		font-size: 48px;
+		/*font-size: 48px;*/
 		font-family: "Bitter",serif;
 		line-height: 1.8;
 		appearance: none;
@@ -80,10 +80,78 @@
 	.newstype-button:hover{
 		background: #CEE3F6;
 		}
+
+
  /*
  <img src="/home/elena/PTC/prereform_to_contemporary/static/logo_hse_cmyk.png", alt="HSE", hspace=20, vspace=20, width='137', height='130'/>
  <img src="/home/elena/PTC/prereform_to_contemporary/static/logo_ling.jpg", alt="ling", hspace=20, vspace=20 width='150' height='97'>*/
+
+.mask {
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	z-index: 1;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.mask-wrapper {
+	width: 250px;
+	height: 23px;
+	background-color:#E4ECF4;
+	position: relative;
+	z-index: 444;
+}
+.custom-file-input {
+	filter: alpha(opacity=0);
+	opacity: 0;
+	/*z-index: 99999;*/
+	cursor: pointer;
+	position: relative;
+}
+.mask-button {
+	background-color: white;
+	border: solid 3px #7E94AB;
+	color: #7E94AB;
+	font-weight: bold;
+}
+.mask-button:hover {
+	background: #E4ECF4;
+}
+
+.mask-file-input {
+	width: 100;
+	/*background-color: #DAEBFC;*/
+}
+.pos-center {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 5px;
+}
+.hide-act {
+	position: absolute;
+	z-index: 1;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
 </style>
+<script>
+function rename_span() {
+	var arr = [];
+	fs = document.getElementById("txt_id").files;
+	for (var i=0, len=fs.length; i<len; i++) {
+    arr.push(fs[i].name);
+	};
+	var newd=arr.join();
+	if (newd.length > 12) {
+		newd = newd.substr(0, 12) + '...'
+	}
+	document.getElementById("show-file").innerHTML = newd;
+};
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
@@ -117,8 +185,8 @@
 								<div class="gap-left"><input type="file" name="f_xml" multiple></div>
 								<div class="gap-left"><input class="newstype-button" type="submit" name='download_xml' value="OK"></div>
 								<div class="gap-left"><input type='hidden' name='filename_xml' value='{{filename}}'></div>
-
 							</div>
+
 							<div>
 							<textarea class="input-output" name='outp_text' cols=100 rows=15>{{output_text}}</textarea>
 							</div>
@@ -129,6 +197,8 @@
 								<div><a class="author" href='https://github.com/shelari/prereform_to_contemporary'>Исходный код</a></div>
 			          <div><span class="author">Елена Сидорова 2017</span></div>
 							</div>
+
+
 						</div>
 						<div class="vertical-block info-part upd_rigth">
 							<div class="horizontal-block upd_rigth">
@@ -148,6 +218,13 @@
 						</div>
 					</div>
 				</form>
+				<div class="mask-wrapper">
+					<div class="mask">
+						<div><input class="mask-button" type="submit" value="Выбрать файлы"></div>
+						<div class="pos-center"><div><span id="show-file">Файл не выбран</span></div></div>
+					</div>
+					<div class="hide-act"><input class="custom-file-input" id="txt_id" type="file" name="f_txt2" multiple onchange="rename_span()"></div>
+				</div>
 			</div>
 
 </body>
