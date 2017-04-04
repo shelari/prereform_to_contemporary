@@ -72,18 +72,17 @@
 	outline: none
 	}
 	.newstype-button {
-		color: #6496c8;
 		background: rgba(0,0,0,0);
-		border: solid 5px #6496c8;
-		border-color: #346392;
+		border: solid 3px #346392;
 		color: #346392;
 		font-weight: bold;
 		}
-	.newstype-buttont button:hover,
-	.newstype-button button.hover {
-		box-shadow: inset 0 0 0 1px #27496d,0 5px 15px #193047;
+	.newstype-button:hover{
+		background: #CEE3F6;
 		}
-
+ /*
+ <img src="/home/elena/PTC/prereform_to_contemporary/static/logo_hse_cmyk.png", alt="HSE", hspace=20, vspace=20, width='137', height='130'/>
+ <img src="/home/elena/PTC/prereform_to_contemporary/static/logo_ling.jpg", alt="ling", hspace=20, vspace=20 width='150' height='97'>*/
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -104,7 +103,7 @@
 							<div class="horizontal-block button-block">
 								<div><input name='go' value='Транслитерировать' type='submit' class="newstype-button"></div>
 								<div class="gap-left"><input name='clean' value='Очистить' type='submit' class="newstype-button"></div>
-								<div class="gap-left"><input type="checkbox" name="both" value='show'> Показывать оригинальное написание</div>
+								<div class="gap-left"><input type="checkbox" name="both" value='show'><span class="note"> Показывать оригинальное написание</span></div>
 			          <div class="gap-left"><a href="{{url_for('get_settings')}}">Настройки</a></div>
 							</div>
 							<div class="horizontal-block load-block">
@@ -134,7 +133,7 @@
 						<div class="vertical-block info-part upd_rigth">
 							<div class="horizontal-block upd_rigth">
 								<div>
-								      <img src="{{url_for('static', filename='logo_hse_cmyk.jpg')}}", alt="HSE", hspace=20, vspace=20, width='137', height='130'/>
+											<img src="{{url_for('static', filename='logo_hse_cmyk.png')}}", alt="HSE", hspace=20, vspace=20, width='137', height='130'/>
 								</div>
 								<div>
 								      <img src="{{url_for('static', filename='logo_ling.jpg')}}", alt="ling", hspace=20, vspace=20 width='150' height='97'>
