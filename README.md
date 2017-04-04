@@ -1,24 +1,26 @@
 # README #
 
-Транслитератор из дореформенной орфографии в современную
+Pre-reform to contemporary orthography convertor for the Russian language
 
-### Что он делает? ###
+### Author ###
 
-* Переводит тексты из формата записи до реформы 1918 года в современный вариант
-* NB: изменения касаются только правил реформы 1918 года (см. https://drive.google.com/file/d/0B65_GJ8xcCTzUXFjbFdPOXBHQUE/view)
+Elena Sidorova (sieleny@gmail.com)
 
-### Онлайн версия ###
+### What does it do? ###
 
-* Онлайн версия транслитератора доступна по ссылке http://web-corpora.net/wsgi/tolstoi_translit.wsgi/
+Converts the texts from the pre-reform (reform of 1918 https://ru.wikipedia.org/wiki/%D0%A0%D0%B5%D1%84%D0%BE%D1%80%D0%BC%D0%B0_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B9_%D0%BE%D1%80%D1%84%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%B8_1918_%D0%B3%D0%BE%D0%B4%D0%B0) format to the contemporary one. NB: about all the changes see https://drive.google.com/file/d/0B65_GJ8xcCTzUXFjbFdPOXBHQUE/view
 
-### Оффлайн версия ###
+### Online version ###
 
-* Для использования транслитератора на локальном компьютере нужно установить на компьютер python2.7 и запустить файл prereform_to_contemporary.py
+http://web-corpora.net/wsgi/tolstoi_translit.wsgi/ (in process)
 
-### Консольная версия ###
+### Offline version ###
 
-* Для запуска транслитератора через консоль запустить файл translit_from_string.py:
+For using this convertor on your own computer you should install python2.7 and run the file prereform_to_contemporary.py
 
+### Command line version ###
+
+For running this convertor from the command line you should run the file translit_from_string.py:
 ```
 >>> python2.7 translit_from_string.py "Онъ стоялъ подлѣ письменнаго стола" 
 <<< Он{Онъ} стоял{стоялъ} подле{подлѣ} письменного{письменнаго} стола 
