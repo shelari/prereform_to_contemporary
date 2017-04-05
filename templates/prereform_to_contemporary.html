@@ -48,6 +48,7 @@
 	}
 	.input-output {
 		resize: none;
+		width: 100%;
 	}
 	.load-block {
 		justify-content: flex-start;
@@ -61,7 +62,6 @@
 		display: inline-block;
 		margin: 0 10px 0 0;
 		padding: 15px 45px;
-		/*font-size: 48px;*/
 		font-family: "Bitter",serif;
 		line-height: 1.8;
 		appearance: none;
@@ -76,10 +76,10 @@
 		border: solid 3px #346392;
 		color: #346392;
 		font-weight: bold;
-		}
+	}
 	.newstype-button:hover{
 		background: #CEE3F6;
-		}
+	}
 
 
  /*
@@ -96,8 +96,8 @@
 	left: 0px;
 }
 .mask-wrapper {
-	width: 250px;
-	height: 23px;
+	width: 255px;
+	height: 22px;
 	background-color:#E4ECF4;
 	position: relative;
 	z-index: 444;
@@ -118,10 +118,26 @@
 .mask-button:hover {
 	background: #E4ECF4;
 }
-
+.div-button {
+	background-color: white;
+	border: solid 3px #7E94AB;
+	color: #7E94AB;
+	font-weight: bold;
+	height: 16px;
+	width: 120px;
+	font-size: 13px;
+	font-family: "Bitter",sans-serif;
+	line-height: 1.8;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+}
+.div-button:hover {
+	background: #E4ECF4;
+}
 .mask-file-input {
 	width: 100;
-	/*background-color: #DAEBFC;*/
 }
 .pos-center {
 	display: flex;
@@ -136,12 +152,15 @@
 	top: 0px;
 	left: 0px;
 }
-
+.show-label{
+	font-family: "Bitter",sans-serif;
+	font-size: 14px;
+}
 </style>
 <script>
-function rename_span() {
+function rename_span(real_id, field_id) {
 	var arr = [];
-	fs = document.getElementById("txt_id").files;
+	fs = document.getElementById(real_id).files;
 	for (var i=0, len=fs.length; i<len; i++) {
     arr.push(fs[i].name);
 	};
@@ -149,12 +168,26 @@ function rename_span() {
 	if (newd.length > 12) {
 		newd = newd.substr(0, 12) + '...'
 	}
-	document.getElementById("show-file").innerHTML = newd;
+	document.getElementById(field_id).innerHTML = newd;
+};
+
+function go_to_settings() {
+	location.href = "{{url_for('get_settings')}}";
+};
+
+function specificate() {
+	var br = window.navigator.userAgent;
+	if (br.indexOf("Chrome")==-1) {
+			document.getElementById("ch1").style.fontSize="11px";
+			document.getElementById("ch2").style.fontSize="11px";
+			document.getElementById("show-file").style.fontSize="12px";
+			document.getElementById("show-file-xml").style.fontSize="12px";
+	};
 };
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body>
+<body onload="specificate()">
 			<div class="main">
 				<form action="{{url_for('web_converter')}}" enctype="multipart/form-data" method="post">
 					<div class="container">
@@ -171,18 +204,34 @@ function rename_span() {
 							<div class="horizontal-block button-block">
 								<div><input name='go' value='Транслитерировать' type='submit' class="newstype-button"></div>
 								<div class="gap-left"><input name='clean' value='Очистить' type='submit' class="newstype-button"></div>
-								<div class="gap-left"><input type="checkbox" name="both" value='show'><span class="note"> Показывать оригинальное написание</span></div>
-			          <div class="gap-left"><a href="{{url_for('get_settings')}}">Настройки</a></div>
+								<div class="gap-left"><input type="checkbox" name="both" value='show'><span class="note" id="sh0"> Показывать оригинальное написание</span></div>
+								<div class="gap-left"><input class="mask-button" type="submit" value="Настройки" onclick="go_to_settings()"></div>
 							</div>
 							<div class="horizontal-block load-block">
 								<div><span class="note">Загрузить файл(ы) .txt:</span></div>
-								<div class="gap-left"><input type="file" name="f_txt" multiple></div>
+
+								<div class="mask-wrapper gap-left">
+									<div class="mask">
+										<div><div class="div-button" id="ch1"><div>Выбрать файлы</div></div></div>
+										<div class="pos-center"><div><span id="show-file" class="show-label">Файл не выбран</span></div></div>
+									</div>
+									<div class="hide-act"><input class="custom-file-input" id="txt_id" type="file" name="f_txt" multiple onchange="rename_span('txt_id', 'show-file')"></div>
+								</div>
+
 								<div class="gap-left"><input class="newstype-button" type="submit" name='download_txt' value="OK"></div>
 								<div class="gap-left"><input type='hidden' name='filename_txt' value='{{filename}}'></div>
 							</div>
 							<div class="horizontal-block load-block">
 								<div><span class="note">Загрузить файл(ы) xml (.html, .xhtml):</span></div>
-								<div class="gap-left"><input type="file" name="f_xml" multiple></div>
+
+								<div class="mask-wrapper gap-left">
+									<div class="mask">
+										<div><div class="div-button" id="ch2"><div>Выбрать файлы</div></div></div>
+										<div class="pos-center"><div><span id="show-file-xml" class="show-label">Файл не выбран</span></div></div>
+									</div>
+									<div class="hide-act"><input class="custom-file-input" id="xml_id" type="file" name="f_xml" multiple onchange="rename_span('xml_id', 'show-file-xml')"></div>
+								</div>
+
 								<div class="gap-left"><input class="newstype-button" type="submit" name='download_xml' value="OK"></div>
 								<div class="gap-left"><input type='hidden' name='filename_xml' value='{{filename}}'></div>
 							</div>
@@ -218,13 +267,6 @@ function rename_span() {
 						</div>
 					</div>
 				</form>
-				<div class="mask-wrapper">
-					<div class="mask">
-						<div><input class="mask-button" type="submit" value="Выбрать файлы"></div>
-						<div class="pos-center"><div><span id="show-file">Файл не выбран</span></div></div>
-					</div>
-					<div class="hide-act"><input class="custom-file-input" id="txt_id" type="file" name="f_txt2" multiple onchange="rename_span()"></div>
-				</div>
 			</div>
 
 </body>
