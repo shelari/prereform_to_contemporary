@@ -18,9 +18,6 @@
   width: 750px;
   font-size: 16px;
 }
-.unedit {
-  disabled
-}
 .content-div {
   text-align: center;
 }
@@ -32,6 +29,12 @@
 }
 .gap-top20 {
   margin-top: 20px;
+}
+.right-inp {
+  text-align: right;
+}
+.center-inp {
+  text-align: center;
 }
 table {
   border: solid 1px #E4ECF4;
@@ -67,8 +70,8 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
         var xml = "{{check_xml}}"
         var txt = "{{check_txt}}"
         function submits(){
-            document.getElementById("s_txt").checked = true;
-            document.getElementById("s_xml").checked = true;
+            document.getElementById(txt).checked = true;
+            document.getElementById(xml).checked = true;
             specificate_settings();
         }
         function click(){
@@ -114,17 +117,17 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
             document.getElementById("txt_set").innerHTML="For .txt data (for uploaded files and entered text)";
             document.getElementById("xml_set").innerHTML="For xml/html data";
             document.getElementById("simple_txt").innerHTML=" Simple";
-            document.getElementById("manual_txt").innerHTML=" Set manual";
+            document.getElementById("manual_txt").innerHTML=" Set manually";
             document.getElementById("simple_xml").innerHTML=" Simple";
-            document.getElementById("manual_xml").innerHTML=" Set manual";
+            document.getElementById("manual_xml").innerHTML=" Set manually";
             document.getElementById("save_button").value="Save the settings";
             sessionStorage.setItem('lang', 'en');
           }
         }
         function specificate_settings() {
           var data = sessionStorage.getItem('lang');
-        	if (data == 'en') {
-        		change_language("en")
+          if (data == 'en') {
+        		change_language_settings("en")
         	}
         	else {
         		document.getElementById("ru_button").style.backgroundColor="#E4ECF4";
@@ -149,9 +152,9 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                   <table>
                     <tr>
                       <td>
-                        <input type="text" name="br_text00" value="<choice><reg>" disabled>
+                        <input type="text" name="br_text00" class="right-inp" value="<choice><reg>" disabled>
                         пример
-                        <input type="text" name="br_text01" value="</reg><orig>" disabled>
+                        <input type="text" name="br_text01" class="center-inp" value="</reg><orig>" disabled>
                         примеръ
                         <input type="text" name="br_text02" value="</orig></choice>" disabled>
                       </td>
@@ -163,7 +166,7 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                       <td>
                         <input type="text" name="br_text10" value="" disabled>
                         пример
-                        <input type="text" name="br_text11" value="{" disabled>
+                        <input type="text" name="br_text11" class="center-inp" value="{" disabled>
                         примеръ
                         <input type="text" name="br_text12" value="}" disabled>
                       </td>
@@ -173,9 +176,9 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                     </tr>
                     <tr>
                       <td>
-                        <input type="text" name="br_text20" value="{{v1_txt}}">
+                        <input type="text" class="right-inp" name="br_text20" value="{{v1_txt}}">
                         пример
-                        <input type="text" name="br_text21" value="{{v2_txt}}">
+                        <input type="text" name="br_text21" class="center-inp" value="{{v2_txt}}">
                         примеръ
                         <input type="text" name="br_text22" value="{{v3_txt}}">
                       </td>
@@ -194,9 +197,9 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                   <table>
                     <tr>
                       <td>
-                        <input type="text" name="br_xml00" value="<choice><reg>" disabled>
+                        <input type="text" name="br_xml00" class="right-inp" value="<choice><reg>" disabled>
                         пример
-                        <input type="text" name="br_xml01" value="</reg><orig>" disabled>
+                        <input type="text" name="br_xml01" class="center-inp" value="</reg><orig>" disabled>
                         примеръ
                         <input type="text" name="br_xml02" value="</orig></choice>" disabled>
                       </td>
@@ -208,7 +211,7 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                       <td>
                         <input type="text" name="br_xml10" value="" disabled>
                         пример
-                        <input type="text" name="br_xml11" value="{" disabled>
+                        <input type="text" name="br_xml11" class="center-inp" value="{" disabled>
                         примеръ
                         <input type="text" name="br_xml11" value="}" disabled>
                       </td>
@@ -218,9 +221,9 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                     </tr>
                     <tr>
                       <td>
-                        <input type="text" name="br_xml20" value="{{v1_xml}}">
+                        <input type="text" name="br_xml20" class="right-inp" value="{{v1_xml}}">
                         пример
-                        <input type="text" name="br_xml21" value="{{v2_xml}}">
+                        <input type="text" name="br_xml21" class="center-inp" value="{{v2_xml}}">
                         примеръ
                         <input type="text" name="br_xml22" value="{{v3_xml}}">
                       </td>
