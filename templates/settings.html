@@ -5,138 +5,11 @@
         PrereformToContemporary
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-.settings-main {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
-.settings-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 750px;
-  font-size: 16px;
-}
-.content-div {
-  text-align: center;
-}
-.labels {
-  font-weight: bold;
-}
-.button-content {
-  font-size: 16px;
-}
-.gap-top20 {
-  margin-top: 20px;
-}
-.right-inp {
-  text-align: right;
-}
-.center-inp {
-  text-align: center;
-}
-table {
-  border: solid 1px #E4ECF4;
-  border-collapse: collapse;
-  text-align: center;
-  width: 100%;
-}
-table tbody tr:nth-child(odd){ /* Задаем стили для нечетных рядов таблицы */
-    background: #E4ECF4;
-}
-
-table tbody tr:nth-child(even){ /* Задаем стили для четных рядов таблицы */
-    background: "white";
-}
-/*------------*/
-.horizontal-block {
-  display: flex;
-  flex-direction: row;
-}
-.language-button {
-	width: 20px;
-	height: 20px;
-	border: solid 1px #E4ECF4;
-}
-.language-content {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-/*------------*/
-</style>
-    <script>
-        var xml = "{{check_xml}}"
-        var txt = "{{check_txt}}"
-        function submits(){
-            document.getElementById(txt).checked = true;
-            document.getElementById(xml).checked = true;
-            specificate_settings();
-        }
-        function click(){
-            if (document.getElementById("tei_txt").checked){
-                txt = "tei_txt"
-            };
-            if (document.getElementById("s_txt").checked){
-                txt = "s_txt"
-            };
-            if (document.getElementById("m_txt").checked){
-                txt = "m_txt"
-            };
-            if (document.getElementById("tei_xml").checked){
-                xml = "tei_xml"
-            };
-            if (document.getElementById("s_xml").checked){
-                xml = "s_xml"
-            };
-            if (document.getElementById("m_xml").checked){
-                xml = "m_xml"
-            };
-        }
-        function change_language_settings(current) {
-          if (current == 'ru') {
-            document.getElementById("en_button").style.backgroundColor="white";
-        		document.getElementById("ru_button").style.backgroundColor="#E4ECF4";
-            document.getElementById("back").innerHTML="Вернуться к транслитератору";
-            document.getElementById("title_set").innerHTML="Настройки вывода";
-            document.getElementById("txt_set").innerHTML="Для данных в формате .txt (загружаемые файлы и вводимые вручную тексты)";
-            document.getElementById("xml_set").innerHTML="Для данных в формате xml/html";
-            document.getElementById("simple_txt").innerHTML=" Простой";
-            document.getElementById("manual_txt").innerHTML=" Задать вручную";
-            document.getElementById("simple_xml").innerHTML=" Простой";
-            document.getElementById("manual_xml").innerHTML=" Задать вручную";
-            document.getElementById("save_button").value="Сохранить настройки";
-            sessionStorage.setItem('lang', 'ru');
-          }
-          else {
-            document.getElementById("ru_button").style.backgroundColor="white";
-        		document.getElementById("en_button").style.backgroundColor="#E4ECF4";
-            document.getElementById("back").innerHTML="Go back to the converter";
-            document.getElementById("title_set").innerHTML="Output settings";
-            document.getElementById("txt_set").innerHTML="For .txt data (for uploaded files and entered text)";
-            document.getElementById("xml_set").innerHTML="For xml/html data";
-            document.getElementById("simple_txt").innerHTML=" Simple";
-            document.getElementById("manual_txt").innerHTML=" Set manually";
-            document.getElementById("simple_xml").innerHTML=" Simple";
-            document.getElementById("manual_xml").innerHTML=" Set manually";
-            document.getElementById("save_button").value="Save the settings";
-            sessionStorage.setItem('lang', 'en');
-          }
-        }
-        function specificate_settings() {
-          var data = sessionStorage.getItem('lang');
-          if (data == 'en') {
-        		change_language_settings("en")
-        	}
-        	else {
-        		document.getElementById("ru_button").style.backgroundColor="#E4ECF4";
-        	}
-        }
-    </script>
+<link rel="stylesheet" type="text/css" href="/home/elena/PTC/prereform_to_contemporary/static/css/ptc_styles.css">
+<script src="/home/elena/PTC/prereform_to_contemporary/static/js/ptc_actions.js"></script>
 </head>
 <body onload="submits()">
-  <a href="{{url_for('web_converter')}}" id="back">Вернуться к транслитератору</a>
+  <a href="{{url_for('web_converter')}}" id="back" class="backlink labels">Вернуться к транслитератору</a>
   <div class="settings-main">
     <div class="settings-content">
         <form action='{{url_for("get_settings")}}' enctype="multipart/form-data" method="post">
@@ -235,13 +108,13 @@ table tbody tr:nth-child(even){ /* Задаем стили для четных �
                 </div>
 
                 <div class="content-div gap-top20">
-                  <input type="submit" name="save_settings" class="labels button-content" value="Сохранить настройки" id="save_button" onclick="click()">
+                  <input type="submit" name="save_settings" class="newstype-button" value="Сохранить настройки" id="save_button" onclick="click()">
                 </div>
 
         </form>
   </div>
     <div class="horizontal-block">
-        <div class="language-button" id="ru_button" onclick="change_language_settings('ru')">
+        <div class="language-button default-language" id="ru_button" onclick="change_language_settings('ru')">
           <div class="language-content"><span>ru</span></div>
         </div>
         <div class="language-button" id="en_button" onclick="change_language_settings('en')">

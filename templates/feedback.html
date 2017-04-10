@@ -5,29 +5,42 @@
         PrereformToContemporary
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="/home/elena/PTC/prereform_to_contemporary/static/css/ptc_styles.css">
+<script src="/home/elena/PTC/prereform_to_contemporary/static/js/ptc_actions.js"></script>
 </head>
-<body>
-        <a href="{{url_for('web_converter')}}">Вернуться к транслитератору</a>
-        <form action='{{url_for("send_mail")}}' enctype="multipart/form-data" method="post">
-                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
-                        <h3>
-                                Форма обратной связи
-                        </h3>
-                </div>
-                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
-                       <span>Если у вас возникли какие-то коментарии, вопросы, связанные с работой транслитератора, или же вы нашли ошибку, пожалуйста, свяжитесь с нами. Не забудьте оставить контактные данные, если вы хотите получить ответ.</span>
-                </div>
-                <br/>
-                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
-                        <textarea name='mail' cols=100% rows=15>{{input_mail}}</textarea>
-                </div>
-                <div style='text-align:center;width:60%;margin-left:20%;margin-right:20%;'>
-                        {{ recaptcha }}
-
-                        <p style="color:red"><b>{{ alert }}</b></p>
-                        <br/>
-                        <input name='send' value='Отправить' type='submit'>
-                </div>
-        </form>
+<body onload="specificate_feedback()">
+      <a href="{{url_for('web_converter')}}" class="backlink labels" id="back">Вернуться к транслитератору</a>
+      <div class="settings-main">
+        <div class="settings-content">
+          <form action='{{url_for("send_mail")}}' enctype="multipart/form-data" method="post">
+                  <div class="content-div">
+                          <h3  id="title_feed">Форма обратной связи</h3>
+                  </div>
+                  <div class="content-div gap-top20">
+                         <span class="labels" id="res_message">Если у вас возникли какие-то коментарии, вопросы, связанные с работой транслитератора, или же вы нашли ошибку, пожалуйста, свяжитесь с нами. Не забудьте оставить контактные данные, если вы хотите получить ответ.</span>
+                  </div>
+                  <div class="gap-top20">
+                          <textarea class="input-output" name='mail' cols=100% rows=15>{{input_mail}}</textarea>
+                  </div>
+                  <div class="content-div gap-top20">
+                          {{ recaptcha }}
+                  </div>
+                  <div class="content-div gap-top20 message-ok">
+                          <span>{{ alert }}</span>
+                  </div>
+                  <div class="content-div gap-top20">
+                        <input class="newstype-button" name='send' id="send_mes" value='Отправить' type='submit'>
+                  </div>
+          </form>
+        </div>
+        <div class="horizontal-block">
+            <div class="language-button default-language" id="ru_button" onclick="change_language_feedback('ru')">
+              <div class="language-content"><span>ru</span></div>
+            </div>
+            <div class="language-button" id="en_button" onclick="change_language_feedback('en')">
+              <div class="language-content"><span>en</span></div>
+            </div>
+        </div>
+      </div>
 </body>
 </html>
