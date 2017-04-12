@@ -10,17 +10,25 @@ from process import Processor
 
 def main(args):
     print_log = False
-    text = ' '.join(args[1:])
+    print args
+    if args[1] == '-t':
+        text = ' '.join(args[2:])
+        show_json = True
+    else:
+        text = ' '.join(args[1:])
+        show_json = False
     try:
-        new_txt = Processor.process_text(text, [u'@', u'{', u'}'], [u'', u'{', u'}'], print_log)
+        new_txt = Processor.process_text(text, [u'@', u'{', u'}'], [u'', u'{', u'}'], 1, print_log)
     except:
         try:
             text = text.decode('utf-8')
-            new_txt = Processor.process_text(text, [u'@', u'{', u'}'], [u'', u'{', u'}'], print_log)
+            new_txt = Processor.process_text(text, [u'@', u'{', u'}'], [u'', u'{', u'}'], 1, print_log)
         except:
             return 0
-    new_txt = new_txt[0]
-    print new_txt
+    if show_json:
+        print new_txt[-1]
+    else:
+        print new_txt[0]
     
     return 0
 

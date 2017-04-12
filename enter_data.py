@@ -43,7 +43,7 @@ class EnterText:
     def ok(self):
         in_text = self.entered.get('1.0', 'end')
 
-        new_text, changes = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+        new_text, changes, _, _ = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
 
         self.result.config(state = 'normal')
         self.result.delete("1.0", "end")
@@ -52,7 +52,7 @@ class EnterText:
 
     def res(self):
         in_text = self.entered.get('1.0', 'end')
-        new_text, changes = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+        new_text, changes, _, _ = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
 
         res = self.out.get()
         if res != '':
@@ -78,6 +78,6 @@ class EnterText:
 
     def log(self):
         in_text = self.entered.get('1.0', 'end')
-        new_text, changes = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+        new_text, changes, _, _ = Processor.process_text(in_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
 
         s = Show(self.top, changes)

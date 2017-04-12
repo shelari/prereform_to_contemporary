@@ -15,30 +15,14 @@ class Tokenizer(object):
         :return: tokens (dict format)
         """
         tokens = {}
-        n = re.compile(u'\n')
-        new_lines = []
-        for m in n.finditer(text):
-            new_lines.append(m.start())
-        r = re.compile(u'\r')
-        res = []
-        for m in r.finditer(text):
-            res.append(m.start())
-        s = re.compile(u' ')
-        spaces = []
-        for m in s.finditer(text):
-            spaces.append(m.start())
         parts = WordTokenizer.tokenize(text)
         current = 0
         id = 0
-        for part in parts:
-            current, tokens, id = cls.add_space_symbols(current, new_lines, tokens, id, res, spaces)
-            tokens[id] = Token(part)
+        for i, part in enumerate(parts):
+            tokens[i] = Token(part)
             current += len(part)
             id += 1
-            # print (1)
-        current, tokens, id = cls.add_space_symbols(current, new_lines, tokens, id, res, spaces)
         tokens = cls.get_types(tokens)
-        tokens = cls.refactor(tokens)
         return tokens
 
     @classmethod

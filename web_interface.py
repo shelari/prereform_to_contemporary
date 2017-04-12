@@ -58,9 +58,9 @@ def web_converter():
         if 'go' in request.values:
             #if 'go' in request.args:
             if 'show' in both:
-                output_text, changes = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
             else:
-                output_text, changes = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
+                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
 
         if 'clean' in request.values:
             input_text = ''
@@ -77,9 +77,9 @@ def web_converter():
                     META['filename'] = secure_filename(el.filename)
                     input_text = el.read().decode('utf-8')
                     if 'show' in both:
-                        new_text, changes = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
                     else:
-                        new_text, changes = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
+                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
                     with codecs.open('log', 'w', 'utf-8') as ou:
                         ou.write(changes)
                     print changes, 'THIS'

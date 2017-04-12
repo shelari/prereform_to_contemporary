@@ -16,6 +16,9 @@ META = {
     },
     'current_delimiters_text':'simple',
     'current_delimiters_xml':'tei',
-    'tmp_folder':''
+    'tmp_folder':'',
+    'spelling_delimiters': [u'<choice><sic>', u'</sic><corr>', u'</corr></choice>'],
+    'spelling_delimiters_upd': [u"<choice original_editorial_correction='", u"'><sic>", u'</sic><corr>',
+                                u'</corr></choice>']
 
 }
