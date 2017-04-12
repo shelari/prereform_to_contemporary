@@ -19,6 +19,7 @@ prefix = {
 }
 particles = [u'б', u'бы', u'ль', u'ли', u'же', u'ж', u'ведь', u'мол', u'даже', u'дескать', u'будто']
 alphabet = u'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
+cyrillic = [u'ё', u'й', u'ц', u'у', u'к', u'е', u'н', u'г', u'ш', u'щ', u'з', u'х', u'ъ', u'ф', u'ы', u'в', u'а', u'п', u'р', u'о', u'л', u'д', u'ж', u'э', u'я', u'ч', u'с', u'м', u'и', u'т', u'ь', u'б', u'ю']
 standard = {
     re.compile(u'^ея$', flags=34):[u'её', []],
     re.compile(u'^нея$', flags=34):[u'неё', []],
@@ -62,28 +63,22 @@ dict_settings = DictLoader.load_dicts()
 class Transliterator(object):
     @classmethod
     def transliterate(cls, word, print_log=True):
-        if print_log:
-            print 'IN', word
-        if re.search(u'^[XIVLMxivlm]*$', word):
+        if re.search(u'^[XIVLMxivlm]+$', word):
             return word
         new_word = []
+        splitted = 0
         for i, el in enumerate(word.split(u'-')):
-            if el in particles and len(word.split(u'-')) > 1:
-                if not i:
-                    el += u' '
-                else:
-                    el = u' ' + el
-                new_word.append(el)
-                continue
-            el = cls.convert_word(el, print_log)
+            if el in particles:
+                splitted = 1
+            else:
+                el = cls.convert_word(el, print_log)
             if print_log:
                 print 'EL', el
             new_word.append(el)
-        word = u'-'.join(new_word)
-        word = word.replace(u' -', u' ')
-        word = word.replace(u'- ', u' ')
-        if print_log:
-            print 'OUT', word
+        if not splitted:
+            word = u'-'.join(new_word)
+        else:
+            word = u' '.join(new_word)
         return word
 
     @classmethod
@@ -92,9 +87,16 @@ class Transliterator(object):
         if cls.is_foreign(part):
             return part
         part, uppers = cls.get_uppers_positions(part)
-        part, quotes = cls.get_quotes_positions(part)
-        part, left, right = cls.get_brackets_positions(part)
-        part = part.replace(u"'", u'')
+        if u"'" in part:
+            part, quotes = cls.get_quotes_positions(part)
+            part = part.replace(u"'", u'')
+        else:
+            quotes = []
+        if u'[' in part:
+            part, left, right = cls.get_brackets_positions(part)
+        else:
+            left = []
+            right = []
         for key in standard:
             if key.search(part):
                 if standard[key][1]:
@@ -117,29 +119,15 @@ class Transliterator(object):
                 else:
                     part = cls.return_brackets(part, left, right, deleted, [])
                 return part
-        if print_log:
-            print 'CHECK1', part
         part, deleted = cls.check_old_end(part, [], [deepcopy(quotes), deepcopy(left), deepcopy(right)])
-        if print_log:
-            print 'CHOLD', part
         part, newdel, added = cls.format_old_style_word(part, [quotes, left, right])
-        if print_log:
-            print 'FORMAT', part
         deleted += newdel
         part = cls.replace_old_style_letters(part, print_log)
-        if print_log:
-            print 'OLDST', part
         part = cls.check_adjective_ends(part)
-        if print_log:
-            print 'ENDS', part
         if len(part) > 2:
             if part[-2:] == u'ия' or part[-2:] == u'ол':
                 part = cls.check_wrong_ends(part)
-        if print_log:
-            print 'WRONDE', part
         part = cls.check_prefix(part)
-        if print_log:
-            print 'CHECK2', part
         if quotes:
             if left or right:
                 if quotes[0] < left[0]:
@@ -154,8 +142,6 @@ class Transliterator(object):
                 part = cls.return_brackets(part, left, right, deleted, added)
         else:
             part = cls.return_brackets(part, left, right, deleted, added)
-        if print_log:
-            print 'CHECK3', part
         part = cls.return_upper_positions(part, uppers, deleted, added)
         if u"''" not in old and u"''" in part:
             part = part.replace(u"''", u"'")
@@ -358,14 +344,11 @@ class Transliterator(object):
 
     @classmethod
     def is_foreign(cls, part):
-        n = 0
+        part = part.lower()
         for el in part:
-            if el in alphabet:
-                n += 1
-        if n > len(part)/2:
-            return 1
-        else:
-            return 0
+            if el in cyrillic:
+                return 0
+        return 1
 
     @classmethod
     def check_adjective_ends(cls, part):
@@ -455,7 +438,7 @@ class Transliterator(object):
 # b = a.return_brackets(u'внимательно', [3], [5], [], [10])
 # b = a.transliterate(u"б[езпроизошол'ъ']")
 # b = a.transliterate(u"без'произошол")
-# b = a.transliterate(u"безпроизошол")
+# b = a.transliterate(u"жилъ-бы")
 # b = a.transliterate(u'выраженіемъ')
 #без'произошол безпроизошол")
 # b = a.check_old_end(u'привет', [])

@@ -11,20 +11,11 @@ import subprocess
 class Processor(object):
     @classmethod
     def process_text(cls, text, show, delimiters, check_brackets, print_log=True):
-        if print_log:
-            print 'INCOMING TEXT'
         text = Preprocessor.preprocess_text(text)
-        if print_log:
-            print 'TEXT', text
         tokens = Tokenizer.tokenize(text)
-        if print_log:
-            print 'TOKENS', tokens
-        # print 'tokens'
         for i in tokens.keys():
             if tokens[i].type == 'word':
                 word = Transliterator.transliterate(tokens[i].word, print_log)
-                if print_log:
-                    print 'WORD TR', word
                 if word != tokens[i].word:
                     tokens[i].old_word = deepcopy(tokens[i].word)
                     tokens[i].word = word
@@ -99,7 +90,7 @@ class Processor(object):
                               tokens[i].old_word + delimiters[2]
                         text.append(new)
                         spelling.append(tokens[i].word)
-                        s = tokens[i].old_word + u' --> ' + tokens[i].word
+                        s = tokens[i].old_word + u'\t-->\t' + tokens[i].word
                         changes.append(s)
                     else:
                         text.append(tokens[i].word)
@@ -129,8 +120,6 @@ class Processor(object):
             out = u''
         else:
             out = u'\n'.join(changes)
-        # print 'WRONG SPELLED', u'\n'.join(wrong_changes)
-        # print 'CHANGES', u'\n'.join(changes)
         return u''.join(text), out, wrong_changes
 
 

@@ -56,11 +56,14 @@ def web_converter():
         #app.logger.info(input_text)
         both = request.form.getlist('both')
         if 'go' in request.values:
-            #if 'go' in request.args:
-            if 'show' in both:
-                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+            if 'spell' in META['current_delimiters_text']:
+                check_brackets = 1
             else:
-                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
+                check_brackets = 0
+            if 'show' in both:
+                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']], check_brackets)
+            else:
+                output_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']], check_brackets)
 
         if 'clean' in request.values:
             input_text = ''
@@ -69,17 +72,23 @@ def web_converter():
         if 'download_txt' in request.values:
             ftxt = request.files.getlist("f_txt")
             errors = []
-            tmp_folder = str(time.time()) + '_ptc'
-            META['tmp_folder'] = tmp_folder
+            curr_time = time.time()
+            clean_store(curr_time)
+            tmp_folder = str(curr_time) + '_ptc'
+            META['tmp_folder'] = META['tmp_store'] + tmp_folder
             os.mkdir(tmp_folder)
             for el in ftxt:
                 try:
                     META['filename'] = secure_filename(el.filename)
                     input_text = el.read().decode('utf-8')
-                    if 'show' in both:
-                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']])
+                    if 'spell' in META['current_delimiters_text']:
+                        check_brackets = 1
                     else:
-                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']])
+                        check_brackets = 0
+                    if 'show' in both:
+                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 1, META['old_new_delimiters'][META['current_delimiters_text']], check_brackets)
+                    else:
+                        new_text, changes, wrong_changes, _ = Processor.process_text(input_text, 0, META['old_new_delimiters'][META['current_delimiters_text']], check_brackets)
                     with codecs.open('log', 'w', 'utf-8') as ou:
                         ou.write(changes)
                     print changes, 'THIS'
@@ -94,11 +103,11 @@ def web_converter():
                     lpath = tmp_folder + '/' + log_filename
                     print 'GET PATH'
                     with codecs.open(fnpath, 'w', 'utf-8') as ou1:
-                            ou1.write(new_text)
-                            print 'WRITE DATA'
+                        ou1.write(new_text)
+                        print 'WRITE DATA'
                     with codecs.open(lpath, 'w', 'utf-8') as ou2:
-                            ou2.write(changes)
-                            print changes, 'WTF??'
+                        ou2.write(changes)
+                        print changes, 'WRITE LOG'
                 except:
                     m = 'Error: file ' + secure_filename(el.filename)
                     errors.append(m)
@@ -163,6 +172,17 @@ def generator(tmp_folder):
         for chunk in z:
             yield chunk
 
+def clean_store(curr_time):
+    sended_responces = os.listdir(META['tmp_store'])
+    for sr in sended_responces:
+        try:
+            test = sr[:-4]
+            prev = int(test)
+            if curr_time - prev > 15:
+                p = META['tmp_store'] + sr
+                shutil.rmtree(p)
+        except:
+            pass
 
 @app.route("/feedback", methods=['GET', 'POST'])
 def send_mail():

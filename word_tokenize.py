@@ -55,7 +55,89 @@ class WordTokenizer(object):
                     refactored.append(token)
                 else:
                     refactored += new
+        refactored = cls.group_brackets(refactored)
         return refactored
+
+    @classmethod
+    def group_brackets(cls, tokens):
+        edited = []
+        pos = 0
+        for i, token in enumerate(tokens):
+            if pos >= len(tokens):
+                break
+            if tokens[pos] == u'[':
+                test_tokens = tokens[pos+1:]
+                if len(test_tokens) == 0:
+                    edited.append(tokens[pos])
+                    pos += 1
+                    continue
+                ok_symb = 0
+                joined = None
+                arr = []
+                closed = 0
+                n = 0
+                for j, st in enumerate(test_tokens):
+                    if ok_symb > 1:
+                        break
+                    if not st[0].isalpha() and st[0] not in SYMBOLS['symbols']:
+                        if ok_symb > 1:
+                            if closed and arr:
+                                arr = arr[:-1]
+                                if arr:
+                                    joined = 1
+                            break
+                        if re.search(u'^\s$', st):
+                            if closed and arr:
+                                joined = 1
+                            break
+
+                        else:
+                            if not ok_symb:
+                                ok_symb += 1
+                                arr.append(st)
+                            else:
+                                if closed and arr:
+                                    joined = 1
+                                break
+                    elif st == u']':
+                        if closed:
+                            if arr:
+                                joined = 1
+                            break
+                        closed = 1
+                        arr.append(st)
+                    elif st == u'[':
+                        if closed and arr:
+                            joined = 1
+                        break
+                    else:
+                        arr.append(st)
+                    n += 1
+
+                if joined and arr:
+                    token = token + u''.join(arr)
+
+                if not pos:
+                    edited.append(token)
+                    if joined and arr:
+                        pos += n
+                    pos += 1
+                    continue
+
+                if joined and arr:
+                    if tokens[pos-1][-1].isalpha() or tokens[pos-1][-1] in SYMBOLS['symbols']:
+                        edited[-1] += token
+                    pos += n
+                    pos += 1
+                    continue
+                else:
+                    edited.append(token)
+                    pos += 1
+
+            else:
+                edited.append(tokens[pos])
+                pos += 1
+        return edited
 
     @classmethod
     def check_token(cls, token):
@@ -109,6 +191,7 @@ class WordTokenizer(object):
 # b = a.tokenize(u'«скоб[к»и]»')
 # b = u"который [на] обычно[мъ] [своемъ] мѣстѣ, под[лѣ] баро[метра], разст[авивъ], любо[въ] 123 д'артань-ян"
 # b = u'qwe[re]fs jk[]jk'
+# b = u'«скоб[к»и]po» [скобки]'
 # b = a.tokenize(b)
 # print u'\n'.join(b)
 # print u'\n'.join(a.get_tokens(b))

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'ElenaSidorova'
 import re
-symbols = {u'і':u'i', u' {2,}':u' ', u'ъ':u'ъ', u"''":u'"'}
+# symbols = {u'і':u'i', u' {2,}':u' ', u'ъ':u'ъ', u"''":u'"'}
+symbols = {u'і':u'i', u'ъ':u'ъ', u"''":u'"'}
 
 class Preprocessor(object):
     @classmethod

@@ -72,8 +72,6 @@ class LoadData(object):
         if askyesno(u"Открыть файл", u"Открыть новый файл?"):
             filename = askopenfilename()
             META['filename'] = filename
-            # meta.filename = fn
-            # if meta.filename == '':
             if filename == u'':
                 text.config(state='normal')
                 text.delete("1.0", "end")
@@ -86,8 +84,6 @@ class LoadData(object):
     def clean_html(cls, line):
         line = line.replace(u'&nbsp;', u' ')
         line = line.replace(u'&quot;', u'"')
-        #line = line.replace(u'&lt;', u'@leftanglebracket@')
-        #line = line.replace(u'&gt;', u'@rightanglebracket@')
         line = line.replace(u'&ndash;', u'-')
         line = line.replace(u'&ndash;', u'-')
         return line
