@@ -49,7 +49,6 @@ function change_language(current) {
 		document.getElementById("example_title").innerHTML="Для примера:";
 		document.getElementById("feed").innerHTML="Форма обратной связи";
 		document.getElementById("school").innerHTML="Школа лингвистики";
-		document.getElementById("git").innerHTML="Исходный код";
 		document.getElementById("auth").innerHTML="Елена Сидорова 2017";
 		sessionStorage.setItem('lang', 'ru');
 
@@ -79,7 +78,6 @@ function change_language(current) {
 		document.getElementById("example_title").innerHTML="Example:";
 		document.getElementById("feed").innerHTML="Feedback form";
 		document.getElementById("school").innerHTML="School of linguistics";
-		document.getElementById("git").innerHTML="Github";
 		document.getElementById("auth").innerHTML="Elena Sidorova 2017";
 		sessionStorage.setItem('lang', 'en');
 
